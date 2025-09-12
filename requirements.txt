@@ -1,0 +1,4 @@
+# === Core Package Required ===
+langchain
+
+-e .
