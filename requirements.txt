@@ -1,4 +1,15 @@
 # === Core Package Required ===
 langchain
+langgraph
+
+# === Backend ===
+fastapi
+uvicorn[standard]
+pydantic
+python-multipart
+
+# === Frontend ===
+streamlit
+requests
 
 -e .
