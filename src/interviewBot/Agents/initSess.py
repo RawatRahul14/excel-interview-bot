@@ -14,7 +14,6 @@ async def init_sess(
 
     new_state: AgentState = {
         # === Unique ID ===
-        "session_id": str(uuid.uuid4()),
         "user_id": None,
 
         # === Difficulty (Adaptive) ===

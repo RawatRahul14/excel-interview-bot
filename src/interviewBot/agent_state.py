@@ -11,7 +11,6 @@ class AnswerLog(TypedDict):
 # === Agent State ===
 class AgentState(TypedDict):
     # === Unique ID ===
-    session_id: str
     user_id: Optional[str]
 
     # === Difficulty (Adaptive) ===
