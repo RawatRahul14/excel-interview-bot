@@ -12,7 +12,9 @@ def init_session():
     sessions: Dict[str, Any] = {
         "messages": [],
         "start_interview": False,
-        "session_id": None
+        "session_id": None,
+        "intro_shown": False,
+        "pending_stream": None
     }
 
     ### === Initialising using the for loop ===

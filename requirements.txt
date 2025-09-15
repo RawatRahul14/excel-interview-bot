@@ -1,6 +1,10 @@
 # === Core Package Required ===
 langchain
 langgraph
+motor
+langgraph-checkpoint-mongodb
+langchain-mongodb[async]
+pymongo[srv]
 
 # === Backend ===
 fastapi

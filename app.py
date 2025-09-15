@@ -34,39 +34,50 @@ def main():
 
     ## === Sidebar: Start Button ===
     with st.sidebar:
+        ## === Information related to starting the interview ===
         st.info(sidebar_detail)
-        if st.session_state["start_interview"] == False:
+
+        # === If the interview is not started ===
+        if not st.session_state["start_interview"]:
+
+            ## === Button to start the interview ===
             if st.button(
-                label = "Start Interview"
+                label = "🚀 Start Interview"
             ):
-                # === If session is not already created ===
+                ### === Recieving the Session ID from the Backend ===
                 if st.session_state["session_id"] is None:
-                    # === Flag to start the interview ===
+
+                    ### === Changing the flag to True for start_interview ===
                     st.session_state["start_interview"] = True
 
+                    ### === Requesting the backend ===
                     try:
-                        # === Getting the Session_id from the backend ===
                         resp = requests.post(
                             url = f"{API_URL}/session_id",
                             timeout = 10
                         )
 
-                        ## === Checking if the connection is made ===
+                        ### === If backend responsed properly ===
                         if resp.status_code == 200:
-
-                            ## === Changing the data into proper jsn format for easy data extraction ===
                             data = resp.json()
 
-                            ## === Saving the session ID ===
+                            ### === Saving te session id in the session state ===
                             st.session_state["session_id"] = data["session_id"]
+
+                            # === Adding intro to the messages ===
+                            if not st.session_state["intro_shown"]:
+
+                                ### === Appending for the first time ===
+                                st.session_state.messages.append({
+                                    "role": "assistant",
+                                    "content": first_message
+                                })
+
+                                ### === Extra sessions ===
+                                st.session_state["intro_shown"] = True
+                                st.session_state["pending_stream"] = first_message
+
                             st.success("✅ Session Started Successfully!")
-
-                            ## === Saving the intro message ===
-                            st.session_state.messages.append({
-                                "role": "assistant",
-                                "content": first_message
-                            })
-
                             st.rerun()
 
                         else:
@@ -78,16 +89,18 @@ def main():
                 else:
                     st.warning("Interview already started.")
 
-    for msg in st.session_state.messages:
-        ## === Printing the user's message instantaneously ===
-        if msg["role"] == "user":
-            with st.chat_message("user"):
-                st.markdown(msg["content"])
+    ## === Chat Display ===
+    for i, msg in enumerate(st.session_state.messages):
+        with st.chat_message(msg["role"]):
 
-        ## === Using streaming for the assistant message ===
-        elif msg["role"] == "assistant":
-            with st.chat_message("assistant"):
+            # === Streaming only the latest message from the bot ===
+            if msg["role"] == "assistant" and msg["content"] == st.session_state["pending_stream"]:
                 st.write_stream(stream_text(msg["content"]))
+                st.session_state["pending_stream"] = None
+
+            # === Displaying the user's reply normally ===
+            else:
+                st.markdown(msg["content"])
 
     ## === User Input ===
     user_input = st.chat_input("Type your answer here...")
@@ -99,12 +112,15 @@ def main():
             "content": user_input
         })
 
-        # Mock bot reply (later: replace with FastAPI call)
+        # Generate assistant reply (placeholder now)
         bot_reply = "Placeholder response from backend"
         st.session_state.messages.append({
             "role": "assistant",
             "content": bot_reply
         })
+
+        # === Saving the latest Bot message as the pending_stream ===
+        st.session_state["pending_stream"] = bot_reply
 
         st.rerun()
 
