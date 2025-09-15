@@ -1,0 +1,39 @@
+excel_topics:
+  - topic: "Difference between Absolute, Relative, and Mixed References"
+    description: "In Excel, cell references can change depending on how formulas are copied. Relative references adjust automatically, absolute references remain fixed with a $, and mixed references combine both behaviors."
+
+  - topic: "Use of VLOOKUP vs INDEX-MATCH vs XLOOKUP"
+    description: "VLOOKUP is a traditional lookup function but is limited by column position. INDEX-MATCH offers more flexibility by separating the row and column lookup. XLOOKUP, a modern replacement, combines power and simplicity for lookups in any direction."
+
+  - topic: "Array Formulas and Dynamic Arrays"
+    description: "Array formulas perform multiple calculations within a single formula. Dynamic array functions such as FILTER, SORT, UNIQUE, and SEQUENCE allow more flexible and modern data manipulation compared to legacy array formulas."
+
+  - topic: "PivotTable Grouping and Calculated Fields"
+    description: "PivotTables allow grouping data by categories, dates, or custom intervals. Calculated fields can be added to create custom metrics beyond the built-in aggregation functions."
+
+  - topic: "Conditional Formatting with Formulas"
+    description: "Conditional formatting rules can be enhanced using formulas. For example, highlighting rows where sales exceed a threshold or marking duplicates dynamically across ranges."
+
+  - topic: "Difference Between COUNT, COUNTA, COUNTBLANK, and COUNTIF"
+    description: "Excel provides different counting functions. COUNT counts numbers only, COUNTA counts non-empty cells, COUNTBLANK counts empty cells, and COUNTIF counts based on a condition."
+
+  - topic: "Using IF with AND/OR for Nested Conditions"
+    description: "Combining IF with AND or OR allows creation of more advanced logic. For example, checking if a student passed based on multiple conditions such as score and attendance."
+
+  - topic: "Data Validation with Custom Formulas"
+    description: "Data validation restricts input to meet specific rules. With custom formulas, advanced conditions like restricting to weekdays or values matching a specific format can be enforced."
+
+  - topic: "Goal Seek and Solver in Decision Making"
+    description: "Goal Seek allows users to find the required input for a target output. Solver extends this capability by solving optimization problems with multiple variables and constraints."
+
+  - topic: "Difference Between Line, Bar, and Scatter Charts"
+    description: "Charts provide different perspectives. Line charts highlight trends, bar charts compare categories, and scatter plots show relationships between two variables."
+
+  - topic: "Macros vs VBA Scripting"
+    description: "Macros record actions to automate tasks, while VBA allows for writing full-fledged scripts that introduce loops, conditions, and custom automation beyond what recording can capture."
+
+  - topic: "Power Query Merging and Appending Data"
+    description: "Power Query can merge two datasets based on a common key (like SQL joins) or append multiple datasets to stack them vertically, enabling scalable data integration."
+
+  - topic: "DAX Functions in Power Pivot"
+    description: "Data Analysis Expressions (DAX) extend Excel with custom measures. Functions like CALCULATE, SUMX, and RELATED allow advanced aggregation in Power Pivot models."

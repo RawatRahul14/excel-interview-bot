@@ -10,6 +10,11 @@ from dotenv import load_dotenv
 # === Custom Modules ===
 from interviewBot.agent_state import AgentState
 
+# === Routes ===
+from interviewBot.routes.router import (
+    is_verified
+)
+
 # === Nodes ===
 ## === State Initializer ===
 from interviewBot.Agents.initSess import init_sess
@@ -19,6 +24,12 @@ from interviewBot.Agents.user_verification import (
     user_verify_interrupt,
     user_verify
 )
+
+## === Question Node ===
+from interviewBot.Agents.question_maker import question
+
+## === Error Handler ===
+from interviewBot.Agents.error import error_handler
 
 load_dotenv()
 
@@ -66,6 +77,26 @@ def build_workflow():
         )
     )
 
+    ## === Creating questions ===
+    workflow.add_node(
+        "questions_node",
+        RunnableLambda(question).with_config(
+            {
+                "run_async": True
+            }
+        )
+    )
+
+    ## === Error Handler Node ===
+    workflow.add_node(
+        "error_handler_node",
+        RunnableLambda(error_handler).with_config(
+            {
+                "run_async": True
+            }
+        )
+    )
+
     # === Edges ===
 
     ## === Entry Point ===
@@ -74,7 +105,14 @@ def build_workflow():
     ## === Connections ===
     workflow.add_edge("init_sess_node", "user_verify_interrupt_node")
     workflow.add_edge("user_verify_interrupt_node", "user_verify_node")
-    workflow.add_edge("user_verify_node", END)
+    workflow.add_conditional_edges(
+        "user_verify_node",
+        is_verified,
+        {
+            "questions": "questions_node",
+            "error_handler": "error_handler_node"
+        }
+    )
 
     return workflow
 

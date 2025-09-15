@@ -1,7 +1,10 @@
 # === Python Modules ===
 import streamlit as st
 from typing import Dict , Any
+from pathlib import Path
 import uuid
+import yaml
+import os
 
 ## === Function to initialise the state session inside the Streamlit UI ===
 def init_session():
@@ -30,3 +33,19 @@ def get_session_id() -> str:
     id: str = str(uuid.uuid4())
 
     return id
+
+def load_yaml(
+        path: Path
+):
+    """
+    Loads the yaml file
+    """
+    # === Load Topics from YAML ===
+    with open(
+        path,
+        "r",
+        encoding = "utf-8"
+    ) as f:
+        topics_data = yaml.safe_load(f)["excel_topics"]
+
+    return topics_data

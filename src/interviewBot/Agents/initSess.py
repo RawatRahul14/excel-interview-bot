@@ -22,6 +22,9 @@ async def init_sess(
         "difficulty": 5,
 
         # === Question Count and Scores ===
+        "used_topics": [],
+        "question": None,
+        "expected_answer": None,
         "question_count": 0,
         "scores": [],
         "difficulties": [5],

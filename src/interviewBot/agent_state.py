@@ -19,6 +19,9 @@ class AgentState(TypedDict):
     difficulty: int
 
     # === Question Count and Scores ===
+    question: Optional[str]
+    expected_answer: Optional[str]
+    used_topics: List[str]
     question_count: int
     scores: List[int]
     difficulties: List[int]

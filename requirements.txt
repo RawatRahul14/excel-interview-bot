@@ -1,5 +1,6 @@
 # === Core Package Required ===
 langchain
+langchain-openai
 langgraph
 motor
 langgraph-checkpoint-mongodb
