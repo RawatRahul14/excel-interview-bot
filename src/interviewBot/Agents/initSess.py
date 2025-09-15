@@ -27,8 +27,10 @@ async def init_sess(
         "expected_answer": None,
         "answer_recieved": None,
         "question_count": 0,
+        "got_score": None,
         "scores": [],
         "difficulties": [5],
+        "evaluation": None,
 
         # === Is there any need for clarification ===
         "clarification_needed": False,

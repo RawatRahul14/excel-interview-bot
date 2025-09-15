@@ -35,6 +35,9 @@ from interviewBot.Agents.error import error_handler
 ## === Recieving answers from the user ===
 from interviewBot.Agents.answers import get_answer
 
+## === Evaluator ===
+from interviewBot.Agents.evaluate import evaluate
+
 load_dotenv()
 
 # === Env Imports ===
@@ -111,6 +114,16 @@ def build_workflow():
         )
     )
 
+    ## === Ealuation Node ===
+    workflow.add_node(
+        "evaluate_node",
+        RunnableLambda(evaluate).with_config(
+            {
+                "run_async": True
+            }
+        )
+    )
+
     # === Edges ===
 
     ## === Entry Point ===
@@ -138,6 +151,7 @@ def build_workflow():
     )
 
     workflow.add_edge("questions_node", "get_answer_node")
+    workflow.add_edge("get_answer_node", "evaluate_node")
 
     return workflow
 

@@ -24,8 +24,10 @@ class AgentState(TypedDict):
     answer_recieved: Optional[str]
     used_topics: List[str]
     question_count: int
+    got_score: Optional[int]
     scores: List[int]
     difficulties: List[int]
+    evaluation: Optional[str]
 
     # === Is there any need for clarification ===
     clarification_needed: bool
