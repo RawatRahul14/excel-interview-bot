@@ -15,6 +15,8 @@ async def init_sess(
     new_state: AgentState = {
         # === Unique ID ===
         "user_id": None,
+        "verified": None,
+        "verification_count": 0,
 
         # === Difficulty (Adaptive) ===
         "difficulty": 5,

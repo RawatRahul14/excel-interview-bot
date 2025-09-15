@@ -12,6 +12,8 @@ class AnswerLog(TypedDict):
 class AgentState(TypedDict):
     # === Unique ID ===
     user_id: Optional[str]
+    verified: Optional[bool]
+    verification_count: int
 
     # === Difficulty (Adaptive) ===
     difficulty: int

@@ -14,6 +14,12 @@ from interviewBot.agent_state import AgentState
 ## === State Initializer ===
 from interviewBot.Agents.initSess import init_sess
 
+## === Verification ===
+from interviewBot.Agents.user_verification import (
+    user_verify_interrupt,
+    user_verify
+)
+
 load_dotenv()
 
 # === Env Imports ===
@@ -32,8 +38,28 @@ def build_workflow():
 
     ## === Initializing the Session ===
     workflow.add_node(
-        "init_sess",
+        "init_sess_node",
         RunnableLambda(init_sess).with_config(
+            {
+                "run_async": True
+            }
+        )
+    )
+
+    ## === Verification Interrrupt ===
+    workflow.add_node(
+        "user_verify_interrupt_node",
+        RunnableLambda(user_verify_interrupt).with_config(
+            {
+                "run_async": True
+            }
+        )
+    )
+
+    ## === Verification Node ===
+    workflow.add_node(
+        "user_verify_node",
+        RunnableLambda(user_verify).with_config(
             {
                 "run_async": True
             }
@@ -43,10 +69,12 @@ def build_workflow():
     # === Edges ===
 
     ## === Entry Point ===
-    workflow.set_entry_point("init_sess")
+    workflow.set_entry_point("init_sess_node")
 
     ## === Connections ===
-    workflow.add_edge("init_sess", END)
+    workflow.add_edge("init_sess_node", "user_verify_interrupt_node")
+    workflow.add_edge("user_verify_interrupt_node", "user_verify_node")
+    workflow.add_edge("user_verify_node", END)
 
     return workflow
 
