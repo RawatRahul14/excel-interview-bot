@@ -26,6 +26,6 @@ async def get_topic(
     topic, description = chosen["topic"], chosen["description"]
 
     # === Updating the used_topics list ===
-    updated_used_topics = used_topics + [chosen]
+    updated_used_topics = used_topics + [chosen["topic"]]
 
     return topic, description, updated_used_topics

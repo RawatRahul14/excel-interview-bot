@@ -1,6 +1,6 @@
 # === Python Modules ===
 import os
-from langgraph.types import interrupt, Command
+from langgraph.types import interrupt
 from dotenv import load_dotenv
 
 # === Agent State ===
@@ -24,7 +24,7 @@ async def user_verify_interrupt(state: AgentState) -> AgentState:
     """
 
     # === To skip the interrupt if already present ===
-    if state.get("user_id"):
+    if state.get("user_id") and state["verified"] == True:
         return state
 
     if state.get("verification_count") == 0:
@@ -44,7 +44,7 @@ async def user_verify_interrupt(state: AgentState) -> AgentState:
         }
     )
 
-    # When resumed, `user_id` will be the value from Command(resume=<value>)
+    # === When resumed, `user_id` will be the value from Command(resume=<value>) ===
     state["user_id"] = user_id
     return state
 

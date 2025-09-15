@@ -25,6 +25,7 @@ async def init_sess(
         "used_topics": [],
         "question": None,
         "expected_answer": None,
+        "answer_recieved": None,
         "question_count": 0,
         "scores": [],
         "difficulties": [5],

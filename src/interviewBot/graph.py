@@ -12,7 +12,8 @@ from interviewBot.agent_state import AgentState
 
 # === Routes ===
 from interviewBot.routes.router import (
-    is_verified
+    is_verified,
+    ask_id
 )
 
 # === Nodes ===
@@ -30,6 +31,9 @@ from interviewBot.Agents.question_maker import question
 
 ## === Error Handler ===
 from interviewBot.Agents.error import error_handler
+
+## === Recieving answers from the user ===
+from interviewBot.Agents.answers import get_answer
 
 load_dotenv()
 
@@ -97,6 +101,16 @@ def build_workflow():
         )
     )
 
+    ## === get_answer Node ===
+    workflow.add_node(
+        "get_answer_node",
+        RunnableLambda(get_answer).with_config(
+            {
+                "run_async": True
+            }
+        )
+    )
+
     # === Edges ===
 
     ## === Entry Point ===
@@ -113,6 +127,17 @@ def build_workflow():
             "error_handler": "error_handler_node"
         }
     )
+
+    workflow.add_conditional_edges(
+        "error_handler_node",
+        ask_id,
+        {
+            "end_graph": END,
+            "user_verify_node": "user_verify_interrupt_node"
+        }
+    )
+
+    workflow.add_edge("questions_node", "get_answer_node")
 
     return workflow
 

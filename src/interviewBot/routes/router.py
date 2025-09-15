@@ -22,3 +22,16 @@ async def is_verified(
 
     else:
         return "error_handler"
+
+## === Verification Error ===
+async def ask_id(
+        state: AgentState
+) -> str:
+    """
+    Based on the number of verifications asks forid again
+    """
+    if state.get("verification_count") == 2:
+        return "end_graph"
+
+    else:
+        return "user_verify_node"

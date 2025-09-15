@@ -1,5 +1,6 @@
 # === Python Modules ===
 from langchain_openai import ChatOpenAI
+from dotenv import load_dotenv
 
 # === Custom Modules ===
 from interviewBot.Schema.model_output import QuestionAgentNode
@@ -9,6 +10,8 @@ from interviewBot.components.topic import get_topic
 
 # === AgentState ===
 from interviewBot.agent_state import AgentState
+
+load_dotenv()
 
 # === Main Agent Body ===
 async def question(
@@ -45,7 +48,7 @@ async def question(
         - Levels 4-6 → Intermediate knowledge: combining formulas, practical use cases, applied problem-solving.  
         - Levels 7-10 → Advanced knowledge: complex scenarios, multi-step problem-solving, nested formulas, pivot tables, advanced data analysis, VBA/macros, or optimization tasks.  
     3. Phrase the question exactly as an interviewer would ask in a real Excel interview.  
-    4. After the question, provide the **correct answer** in a clear, step-by-step explanation or formula.  
+    4. After the question, provide the **correct answer** in a clear, step-by-step explanation or formula. Answer in only 2-3 lines.  
     """
 
     response = await llm_model.ainvoke(prompt)
