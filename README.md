@@ -157,7 +157,7 @@ Steps:
 - Structured report generated
 - Final decision → Pass / Fail / Needs Review
 
-![alt text](image.png)
+![alt text](img/image.png)
 
 ---
 
