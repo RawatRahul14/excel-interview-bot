@@ -13,7 +13,8 @@ from interviewBot.agent_state import AgentState
 # === Routes ===
 from interviewBot.routes.router import (
     is_verified,
-    ask_id
+    ask_id,
+    is_question_done
 )
 
 # === Nodes ===
@@ -37,6 +38,12 @@ from interviewBot.Agents.answers import get_answer
 
 ## === Evaluator ===
 from interviewBot.Agents.evaluate import evaluate
+
+## === Adaptive ===
+from interviewBot.Agents.adaptive import difficulty_adaptive
+
+## === Report ===
+from interviewBot.Agents.make_report import report
 
 load_dotenv()
 
@@ -114,10 +121,30 @@ def build_workflow():
         )
     )
 
-    ## === Ealuation Node ===
+    ## === Evaluation Node ===
     workflow.add_node(
         "evaluate_node",
         RunnableLambda(evaluate).with_config(
+            {
+                "run_async": True
+            }
+        )
+    )
+
+    ## === Verification Node ===
+    workflow.add_node(
+        "difficulty_adaptive_node",
+        RunnableLambda(difficulty_adaptive).with_config(
+            {
+                "run_async": True
+            }
+        )
+    )
+
+    ## === Report Node ===
+    workflow.add_node(
+        "report_node",
+        RunnableLambda(report).with_config(
             {
                 "run_async": True
             }
@@ -152,6 +179,17 @@ def build_workflow():
 
     workflow.add_edge("questions_node", "get_answer_node")
     workflow.add_edge("get_answer_node", "evaluate_node")
+
+    workflow.add_conditional_edges(
+        "evaluate_node",
+        is_question_done,
+        {
+            "report": "report_node",
+            "adaptive": "difficulty_adaptive_node"
+        }
+    )
+
+    workflow.add_edge("difficulty_adaptive_node", "questions_node")
 
     return workflow
 

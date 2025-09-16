@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from interviewBot.Schema.model_output import EvaluationAgentNode
 
 # === AgentState ===
-from interviewBot.agent_state import AgentState
+from interviewBot.agent_state import AgentState, AnswerLog
 
 # === Main Agent Body ===
 async def evaluate(
@@ -58,5 +58,17 @@ async def evaluate(
     state["difficulty"] = response.difficulty
     state["evaluation"] = response.evaluation
     state["got_score"] = response.score
+    state["scores"].append(response.score)
+
+    
+    answer_logs: AnswerLog = {
+        "q": state.get("question"),
+        "e_ans": state.get("expected_answer"),
+        "ans": state.get("answer_recieved"),
+        "eval": state.get("evaluation"),
+        "score": state.get("got_score")
+    }
+
+    state["answers_log"].append(answer_logs)
 
     return state

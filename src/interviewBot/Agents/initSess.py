@@ -40,6 +40,7 @@ async def init_sess(
         "answers_log": [],
 
         # === Final Decision ===
+        "report": None,
         "final_decision": None
     }
 

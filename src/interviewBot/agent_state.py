@@ -4,6 +4,7 @@ from typing import TypedDict, Literal, Optional, List
 # === Answers Log ===
 class AnswerLog(TypedDict):
     q: str
+    e_ans: str
     ans: str
     eval: str
     score: int
@@ -37,4 +38,5 @@ class AgentState(TypedDict):
     answers_log: List[AnswerLog]
 
     # === Final Decision ===
+    report: Optional[str]
     final_decision: Optional[Literal["pass", "fail", "review"]]

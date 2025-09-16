@@ -35,3 +35,18 @@ async def ask_id(
 
     else:
         return "user_verify_node"
+
+## === Question Flow ===
+async def is_question_done(
+        state: AgentState
+) -> str:
+    """
+    Checks whether the total number of questions are done or not
+    """
+    questions_done = state.get("question_count")
+
+    if questions_done == 10:
+        return "report"
+
+    else:
+        return "adaptive"

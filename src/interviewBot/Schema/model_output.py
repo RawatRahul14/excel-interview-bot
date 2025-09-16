@@ -1,5 +1,6 @@
 # === Python Module ===
 from pydantic import BaseModel, Field
+from typing import Literal
 
 # === Question Agent Node ===
 class QuestionAgentNode(BaseModel):
@@ -23,4 +24,14 @@ class EvaluationAgentNode(BaseModel):
 
     evaluation: str = Field(
         description = "A single line evaluation of the user's answer."
+    )
+
+# === Report Maker Node ===
+class ReportAgentNode(BaseModel):
+    report: str = Field(
+        description = "Report made by the agent based on the answer logs of the user."
+    )
+
+    final_decision: Literal["pass", "fail", "review"] = Field(
+        description = "Whether the person is failed/passed or needs review"
     )
