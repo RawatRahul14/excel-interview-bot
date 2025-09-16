@@ -41,7 +41,8 @@ async def init_sess(
 
         # === Final Decision ===
         "report": None,
-        "final_decision": None
+        "final_decision": None,
+        "final_message": None
     }
 
     return new_state

@@ -17,7 +17,9 @@ COLLECTION_NAME_VERIFICATION = os.getenv("COLLECTION_NAME_VERIFICATION")
 
 
 # === Main Node Body for Interrupt ===
-async def user_verify_interrupt(state: AgentState) -> AgentState:
+async def user_verify_interrupt(
+        state: AgentState
+) -> AgentState:
     """
     Interrupts the user to get the user ID or email ID.
     If the user_id is already present in state, skip the interrupt.
@@ -50,7 +52,9 @@ async def user_verify_interrupt(state: AgentState) -> AgentState:
 
 
 # === Main Node Body for Verification ===
-async def user_verify(state: AgentState) -> AgentState:
+async def user_verify(
+        state: AgentState
+) -> AgentState:
     """
     Verifies whether the ID is valid or not.
     """

@@ -1,10 +1,6 @@
 # === Python Modules ===
 from pymongo import AsyncMongoClient
 
-# === Custom Modules ===
-
-# === Utils ===
-
 ## === Function to verify whether the ID is valid or not ===
 async def verify_id(
         user_id: str,

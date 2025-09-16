@@ -40,3 +40,4 @@ class AgentState(TypedDict):
     # === Final Decision ===
     report: Optional[str]
     final_decision: Optional[Literal["pass", "fail", "review"]]
+    final_message: Optional[str]

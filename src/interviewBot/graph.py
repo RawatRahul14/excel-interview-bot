@@ -45,6 +45,9 @@ from interviewBot.Agents.adaptive import difficulty_adaptive
 ## === Report ===
 from interviewBot.Agents.make_report import report
 
+## === Report Upload ===
+from interviewBot.Agents.final import finalizer
+
 load_dotenv()
 
 # === Env Imports ===
@@ -151,6 +154,16 @@ def build_workflow():
         )
     )
 
+    ## === Final Node ===
+    workflow.add_node(
+        "finalizer_node",
+        RunnableLambda(finalizer).with_config(
+            {
+                "run_async": True
+            }
+        )
+    )
+
     # === Edges ===
 
     ## === Entry Point ===
@@ -190,6 +203,8 @@ def build_workflow():
     )
 
     workflow.add_edge("difficulty_adaptive_node", "questions_node")
+    workflow.add_edge("report_node", "finalizer_node")
+    workflow.add_edge("finalizer_node", END)
 
     return workflow
 

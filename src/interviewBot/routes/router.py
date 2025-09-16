@@ -45,7 +45,7 @@ async def is_question_done(
     """
     questions_done = state.get("question_count")
 
-    if questions_done == 10:
+    if questions_done == 2:
         return "report"
 
     else:
