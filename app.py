@@ -1,6 +1,8 @@
 # === Python Modules ===
+import os
 import streamlit as st
 import requests
+from dotenv import load_dotenv
 
 # === Custom Modules ===
 from interviewBot.utils.common import init_session
@@ -12,8 +14,10 @@ from interviewBot.details import (
     first_message
 )
 
+load_dotenv()
+
 # === FastAPI endpoint ===
-API_URL = "http://127.0.0.1:8000"
+API_URL = os.getenv("API_URL")
 
 # === Main Function ===
 def main():
