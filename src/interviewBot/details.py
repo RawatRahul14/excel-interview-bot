@@ -14,5 +14,4 @@ first_message = (
     "👋 Welcome to the AI-Powered Excel Interview Bot!\n\n"
     "📌 You will be asked 10 questions to test your Excel skills.\n\n"
     "📈 Difficulty will adapt based on your answers.\n\n"
-    "💡 If your answer is unclear, I may ask for clarification (max 2 times).\n\n"
     )
