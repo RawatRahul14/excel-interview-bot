@@ -1,6 +1,7 @@
 # === Python Modules ===
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
+from langgraph.types import Command
 
 # === Custom Modules ===
 from interviewBot.utils.common import (
@@ -10,10 +11,15 @@ from interviewBot.utils.common import (
 # === Graph ===
 from interviewBot.graph import build_graph
 
+# === Requests Schema ===
+from interviewBot.Schema.request import (
+    ChatbotRequests
+)
+
 # === Response Schemas ===
 from interviewBot.Schema.responses import (
     SessionResponse,
-    VerificationResponse
+    ChatbotResponse
 )
 
 ## === Startup event ===
@@ -67,12 +73,33 @@ async def session_id():
         first_message_verification = message.get("message")
     )
 
-# ## === Recieving the Email ID ===
-# @app.post("/get_id", response_model = VerificationResponse)
-# async def verify_id(
-#     session_id: str,
-#     id: str
-# ):
-#     """
-#     Verifies the user's id
-#     """
+## === User Inputs ===
+@app.post("/qna", response_model = ChatbotResponse)
+async def start_qna(
+    payload: ChatbotRequests
+):
+    """
+    Accepts the user's message and reply appropriately
+    """
+    ## === Extracts the needed variables ===
+    session_id = payload.session_id
+    user_input = payload.user_input
+
+    ## === Resuming the graph after the interrupts ===
+    graph = app.state.graph
+
+    result = await graph.ainvoke(
+        Command(resume = user_input),
+        config = {
+            "configurable": {
+                "thread_id": session_id
+            }
+        }
+    )
+
+    ## === Extracting the Message ===
+    message = result["__interrupt__"][0].value
+
+    return ChatbotResponse(
+        reply = message.get("message")
+    )

@@ -107,6 +107,8 @@ def main():
     ## === User Input ===
     user_input = st.chat_input("Type your answer here...")
 
+    ## === Backend Call ===
+
     if user_input and st.session_state["start_interview"]:
         # Save user input
         st.session_state.messages.append({
@@ -114,8 +116,23 @@ def main():
             "content": user_input
         })
 
-        # Generate assistant reply (placeholder now)
-        bot_reply = "Placeholder response from backend"
+        try:
+            resp_2 = requests.post(
+                url = f"{API_URL}/qna",
+                json = {
+                    "session_id": st.session_state["session_id"],
+                    "user_input": user_input
+                }
+            )
+
+            if resp_2.status_code == 200:
+                data = resp_2.json()
+
+                bot_reply = data["reply"]
+
+        except Exception as e:
+            raise e
+
         st.session_state.messages.append({
             "role": "assistant",
             "content": bot_reply
