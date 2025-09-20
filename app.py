@@ -50,7 +50,7 @@ def main():
                     ### === Changing the flag to True for start_interview ===
                     st.session_state["start_interview"] = True
 
-                    ### === Requesting the backend ===
+                    ### === Requesting the backend for the session id ===
                     try:
                         resp = requests.post(
                             url = f"{API_URL}/session_id",
@@ -63,19 +63,21 @@ def main():
 
                             ### === Saving te session id in the session state ===
                             st.session_state["session_id"] = data["session_id"]
+                            st.session_state["first_message_verification"] = data["first_message_verification"]
 
                             # === Adding intro to the messages ===
                             if not st.session_state["intro_shown"]:
 
                                 ### === Appending for the first time ===
+                                combined_message = first_message + st.session_state["first_message_verification"]
                                 st.session_state.messages.append({
                                     "role": "assistant",
-                                    "content": first_message
+                                    "content": combined_message
                                 })
 
                                 ### === Extra sessions ===
                                 st.session_state["intro_shown"] = True
-                                st.session_state["pending_stream"] = first_message
+                                st.session_state["pending_stream"] = combined_message
 
                             st.success("✅ Session Started Successfully!")
                             st.rerun()

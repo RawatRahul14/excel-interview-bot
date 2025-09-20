@@ -1,18 +1,43 @@
 # === Python Modules ===
 from fastapi import FastAPI
+from contextlib import asynccontextmanager
 
 # === Custom Modules ===
 from interviewBot.utils.common import (
     get_session_id
 )
 
+# === Graph ===
+from interviewBot.graph import build_graph
+
 # === Response Schemas ===
 from interviewBot.Schema.responses import (
-    SessionResponse
+    SessionResponse,
+    VerificationResponse
 )
 
+## === Startup event ===
+@asynccontextmanager
+async def lifespan(
+    app: FastAPI
+):
+    """
+    Initiates the graph
+    """
+    print("Graph Init.")
+    # === Start up ===
+    app.state.graph = await build_graph()
+
+    yield
+
+    # === Shutdown ===
+    print("App shutting down.")
+
 # === FastAPI endpoints ===
-app = FastAPI()
+app = FastAPI(
+    title = "Excel Interview ChatBot",
+    lifespan = lifespan
+)
 
 ## === Sending Session id ===
 @app.post("/session_id", response_model = SessionResponse)
@@ -20,8 +45,34 @@ async def session_id():
     """
     Generates Session ID used for the thread id in Graph
     """
+    ## === Session Id ===
     session_id = get_session_id()
 
-    return SessionResponse(
-        session_id = session_id
+    ## === First Interrupt ===
+    graph = app.state.graph
+    result = await graph.ainvoke(
+        {},
+        config = {
+            "configurable": {
+                "thread_id": session_id
+            }
+        }
     )
+
+    ## === Extracting the message ===
+    message = result["__interrupt__"][0].value
+
+    return SessionResponse(
+        session_id = session_id,
+        first_message_verification = message.get("message")
+    )
+
+# ## === Recieving the Email ID ===
+# @app.post("/get_id", response_model = VerificationResponse)
+# async def verify_id(
+#     session_id: str,
+#     id: str
+# ):
+#     """
+#     Verifies the user's id
+#     """

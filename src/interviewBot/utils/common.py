@@ -17,7 +17,8 @@ def init_session():
         "start_interview": False,
         "session_id": None,
         "intro_shown": False,
-        "pending_stream": None
+        "pending_stream": None,
+        "first_message_verification": None
     }
 
     ### === Initialising using the for loop ===

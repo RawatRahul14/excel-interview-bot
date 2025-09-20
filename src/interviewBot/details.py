@@ -15,5 +15,4 @@ first_message = (
     "📌 You will be asked 10 questions to test your Excel skills.\n\n"
     "📈 Difficulty will adapt based on your answers.\n\n"
     "💡 If your answer is unclear, I may ask for clarification (max 2 times).\n\n"
-    "🔑 Please enter your Email ID or Employee ID to continue."
     )

@@ -30,7 +30,7 @@ async def user_verify_interrupt(
         return state
 
     if state.get("verification_count") == 0:
-        interrput_message = "Please enter your Email ID or Employee ID for verification (You will have 2 tries):"
+        interrput_message = "🔑 Before we begin, please enter your **Email ID** or **Employee ID** to verify yourself.\n\n✅ You'll have 2 attempts."
 
     else:
         interrput_message = "Last chance: Enter either your Email ID or Employee ID correctly."
