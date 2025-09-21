@@ -98,8 +98,12 @@ async def start_qna(
     )
 
     ## === Extracting the Message ===
-    message = result["__interrupt__"][0].value
+    if "__interrupt__" in result and result["__interrupt__"]:
+        message = result["__interrupt__"][0].value
+        bot_reply = message.get("message")
+    else:
+        bot_reply = result.get("final_message", "")
 
     return ChatbotResponse(
-        reply = message.get("message")
+        reply = bot_reply
     )
